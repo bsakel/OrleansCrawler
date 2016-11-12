@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiloApp", "SiloApp\SiloApp.csproj", "{419BE1C6-2B4E-4B1E-974C-C9B97D037859}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grains", "Grains\Grains.csproj", "{E05AFC2F-DFA6-45D0-A77B-D10A2F9FE034}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApp", "ClientApp\ClientApp.csproj", "{DF913C1A-B923-4A1C-A41D-2E5346FE5144}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{419BE1C6-2B4E-4B1E-974C-C9B97D037859}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{419BE1C6-2B4E-4B1E-974C-C9B97D037859}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{419BE1C6-2B4E-4B1E-974C-C9B97D037859}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E05AFC2F-DFA6-45D0-A77B-D10A2F9FE034}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E05AFC2F-DFA6-45D0-A77B-D10A2F9FE034}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E05AFC2F-DFA6-45D0-A77B-D10A2F9FE034}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E05AFC2F-DFA6-45D0-A77B-D10A2F9FE034}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF913C1A-B923-4A1C-A41D-2E5346FE5144}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF913C1A-B923-4A1C-A41D-2E5346FE5144}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF913C1A-B923-4A1C-A41D-2E5346FE5144}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF913C1A-B923-4A1C-A41D-2E5346FE5144}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

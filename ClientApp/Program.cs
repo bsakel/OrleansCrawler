@@ -32,20 +32,15 @@ namespace ClientApp
                 }
             }
 
+            //Init MongoWriterGrain and set collectionName
+            //var mongoWriterGrain = GrainClient.GrainFactory.GetGrain<IMongoWriterGrain>("test");
+            //mongoWriterGrain.SetCollection("test1");
+
             // get a reference to the grain from the grain factory
-            var pageParseQueueGrain = GrainClient.GrainFactory.GetGrain<IPageParseQueue>(0);
-            pageParseQueueGrain.Add(uri);
+            var publisherCrawlerGrain = GrainClient.GrainFactory.GetGrain<IPublisherCrawler>(uri);
+            publisherCrawlerGrain.Crawl("","");
 
-            while (pageParseQueueGrain.Count().Result > 0)
-            {
-                var nextUri = pageParseQueueGrain.GetNext().Result;
-                var pageGrain = GrainClient.GrainFactory.GetGrain<IPageGrain>(nextUri);
-
-            }
-            // call the grain
-            var result = grain.LoadPage().Result;
-
-            Console.WriteLine(result);
+            //Console.WriteLine(result);
             Console.ReadKey();
         }
     }

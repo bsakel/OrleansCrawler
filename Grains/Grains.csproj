@@ -114,9 +114,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IGrains\IMongoWriter.cs" />
-    <Compile Include="IGrains\IPageGrain.cs" />
-    <Compile Include="IGrains\IPageParseQueue.cs" />
+    <Compile Include="IGrains\IMongoWriterGrain.cs" />
+    <Compile Include="IGrains\IArticlePageGrain.cs" />
+    <Compile Include="IGrains\IPublisherCrawler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

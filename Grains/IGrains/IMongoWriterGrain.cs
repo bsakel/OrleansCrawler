@@ -13,27 +13,25 @@ using Orleans.Concurrency;
 
 namespace Grains.IGrains
 {
-    public interface IMongoWriter : IGrainWithIntegerKey
+    public interface IMongoWriterGrain : IGrainWithStringKey
     {
+        Task SetCollection(string collectionName);
         Task SavePageData(string uri, string title, string text, string source);
     }
 
     [StatelessWorker]
-    public class MongoWriter : Grain, IMongoWriter
+    public class MongoWriter : Grain, IMongoWriterGrain
     {
         IMongoClient _client;
         IMongoDatabase _database;
 
+        string _collectionName;
+
         public override async Task OnActivateAsync()
         {
             _client = new MongoClient();
-            _database = _client.GetDatabase("test");
-
-            if (await CollectionExistsAsync("test1") != true)
-            {
-                _database.CreateCollection("test1");
-            }
-            
+            _database = _client.GetDatabase(this.GetPrimaryKeyString());
+                                  
             await base.OnActivateAsync();
         }
       
@@ -48,6 +46,15 @@ namespace Grains.IGrains
             return (await collections.ToListAsync()).Any();
         }
 
+        public async Task SetCollection(string collectionName)
+        {
+            _collectionName = collectionName;
+            if (await CollectionExistsAsync(_collectionName) != true)
+            {
+                _database.CreateCollection(_collectionName);
+            }
+        }
+
         public async Task SavePageData(string uri, string title, string text, string source)
         {
             var document = new BsonDocument
@@ -58,7 +65,7 @@ namespace Grains.IGrains
                 {"source", source}
             };
 
-            await _database.GetCollection<BsonDocument>("test1").InsertOneAsync(document);
+            await _database.GetCollection<BsonDocument>(_collectionName).InsertOneAsync(document);
         }
     }
 }

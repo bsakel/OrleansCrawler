@@ -7,11 +7,9 @@ using Orleans;
 
 namespace Grains.IGrains
 {
-    public interface IPageParseQueue : IGrainWithIntegerKey
+    public interface IPublisherCrawler : IGrainWithStringKey
     {
-        Task Add(string uri);
+        Task Crawl(string categoryPageXPath, string articlePageXPath);
         Task Add(IList<string> uriList);
-        Task<string> GetNext();
-        Task<int> Count();
     }
 }

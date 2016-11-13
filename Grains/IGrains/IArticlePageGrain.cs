@@ -6,16 +6,14 @@ using System.Threading.Tasks;
 using Orleans;
 using Orleans.Providers;
 
-//Todo Make a POCO for the page element and savc the poco
-
 namespace Grains.IGrains
 {
-    public interface IPageGrain : IGrainWithStringKey
+    public interface IArticlePageGrain : IGrainWithStringKey
     {
         Task<bool> LoadPage();
     }
 
-    public class PageGrainState
+    public class ArticlePageGrainState
     {
         public string Uri { get; set; }
         public string Title { get; set; }
@@ -25,7 +23,7 @@ namespace Grains.IGrains
     }
 
     [StorageProvider(ProviderName = "SQLStorage")]
-    public class Page : Grain<PageGrainState>, IPageGrain
+    public class Page : Grain<ArticlePageGrainState>, IArticlePageGrain
     {
         public Task<bool> LoadPage()
         {
@@ -33,10 +31,6 @@ namespace Grains.IGrains
             {
                 State.Uri = this.GetPrimaryKeyString();
             }
-
-
-            var mongoWriter = GrainFactory.GetGrain<IMongoWriter>(0);
-            mongoWriter.SavePageData(State.Uri, State.Title, State.Text, State.Source);
 
             return Task.FromResult(true);
         }

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Orleans;
+using Orleans.Providers;
+
+//Todo Make a POCO for the page element and savc the poco
 
 namespace Grains.IGrains
 {
@@ -12,29 +15,28 @@ namespace Grains.IGrains
         Task<bool> LoadPage();
     }
 
-    public class Page : Grain, IPageGrain
+    public class PageGrainState
     {
-        private string _uri;
-        private string _title;
-        private string _text;
-        private string _source;
+        public string Uri { get; set; }
+        public string Title { get; set; }
+        public string Text { get; set; }
+        public string Source { get; set; }
+        public bool IsParsed { get; set; }
+    }
 
-        public override Task OnActivateAsync()
-        {
-            _uri = this.GetPrimaryKeyString();
-            _title = "";
-            _text = "";
-            _source = "";
-
-            return base.OnActivateAsync();
-        }
-
+    [StorageProvider(ProviderName = "SQLStorage")]
+    public class Page : Grain<PageGrainState>, IPageGrain
+    {
         public Task<bool> LoadPage()
         {
-            Console.WriteLine("Page Grain for: " + _uri);
+            if (State.IsParsed)
+            {
+                State.Uri = this.GetPrimaryKeyString();
+            }
 
-            var mongoWriter1 = GrainFactory.GetGrain<IMongoWriter>(0);
-            mongoWriter1.SavePageData(_uri, _title, _text, _source);
+
+            var mongoWriter = GrainFactory.GetGrain<IMongoWriter>(0);
+            mongoWriter.SavePageData(State.Uri, State.Title, State.Text, State.Source);
 
             return Task.FromResult(true);
         }

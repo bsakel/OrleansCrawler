@@ -33,8 +33,15 @@ namespace ClientApp
             }
 
             // get a reference to the grain from the grain factory
-            var grain = GrainClient.GrainFactory.GetGrain<IPageGrain>(uri);
+            var pageParseQueueGrain = GrainClient.GrainFactory.GetGrain<IPageParseQueue>(0);
+            pageParseQueueGrain.Add(uri);
 
+            while (pageParseQueueGrain.Count().Result > 0)
+            {
+                var nextUri = pageParseQueueGrain.GetNext().Result;
+                var pageGrain = GrainClient.GrainFactory.GetGrain<IPageGrain>(nextUri);
+
+            }
             // call the grain
             var result = grain.LoadPage().Result;
 

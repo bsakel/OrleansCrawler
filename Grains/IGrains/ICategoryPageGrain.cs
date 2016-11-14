@@ -4,32 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Orleans;
-using Orleans.Providers;
 
 namespace Grains.IGrains
 {
-    public interface IArticlePageGrain : IGrainWithStringKey
+    public interface ICategoryPageGrain : IGrainWithStringKey
     {
         Task<bool> LoadPage();
     }
 
-    public class ArticlePage
+    public class CategoryPage
     {
         public string Uri { get; set; }
-        public string Title { get; set; }
-        public string Text { get; set; }
         public string Source { get; set; }
     }
 
-    public class ArticlePageGrain : Grain, IArticlePageGrain
+    public class CategoryPageGrain : Grain, ICategoryPageGrain
     {
         public Task<bool> LoadPage()
         {
-            var article = new ArticlePage();
+            var category = new CategoryPage();
 
             var saveMongo = GrainFactory.GetGrain<IMongoGrain>("test");
             saveMongo.SetCollection("test1");
-            saveMongo.Save(article);
+            saveMongo.Save(category);
 
             return Task.FromResult(true);
         }

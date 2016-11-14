@@ -114,9 +114,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IGrains\IMongoWriterGrain.cs" />
+    <Compile Include="IGrains\IAzureQueueGrain.cs" />
+    <Compile Include="IGrains\ICategoryPageGrain.cs" />
+    <Compile Include="IGrains\IMongoGrain.cs" />
     <Compile Include="IGrains\IArticlePageGrain.cs" />
-    <Compile Include="IGrains\IPublisherCrawler.cs" />
+    <Compile Include="IGrains\IPublisherGrain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

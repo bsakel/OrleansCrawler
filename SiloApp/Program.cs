@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Orleans.Runtime;
 using Orleans.Runtime.Configuration;
 
 namespace SiloApp
@@ -11,7 +12,10 @@ namespace SiloApp
     {
         static void Main(string[] args)
         {
-            using (var silo = new Orleans.Runtime.Host.SiloHost("primary", ClusterConfiguration.LocalhostPrimarySilo()))
+            var config = ClusterConfiguration.LocalhostPrimarySilo();
+            config.AddAzureBlobStorageProvider("AzureStore", "UseDevelopmentStorage=true");
+
+            using (var silo = new Orleans.Runtime.Host.SiloHost("primary", config))
             {
                 silo.InitializeOrleansSilo();
 

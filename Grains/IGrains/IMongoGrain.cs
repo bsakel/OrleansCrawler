@@ -8,19 +8,16 @@ using MongoDB.Driver;
 using Orleans;
 using Orleans.Concurrency;
 
-//Todo Get the configuration to a centran location
-//Todo Get a serilizer instead of the static document
-
 namespace Grains.IGrains
 {
-    public interface IMongoWriterGrain : IGrainWithStringKey
+    public interface IMongoGrain : IGrainWithStringKey
     {
         Task SetCollection(string collectionName);
-        Task SavePageData(string uri, string title, string text, string source);
+        Task Save(object data);
     }
 
     [StatelessWorker]
-    public class MongoWriter : Grain, IMongoWriterGrain
+    public class MongoGrain : Grain, IMongoGrain
     {
         IMongoClient _client;
         IMongoDatabase _database;
@@ -55,16 +52,10 @@ namespace Grains.IGrains
             }
         }
 
-        public async Task SavePageData(string uri, string title, string text, string source)
+        public async Task Save(object data)
         {
-            var document = new BsonDocument
-            {
-                {"uri", uri},
-                {"title", title},
-                {"text", text},
-                {"source", source}
-            };
-
+            var document = data.ToBsonDocument();
+            
             await _database.GetCollection<BsonDocument>(_collectionName).InsertOneAsync(document);
         }
     }

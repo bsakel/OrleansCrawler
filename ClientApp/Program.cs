@@ -36,11 +36,16 @@ namespace ClientApp
             //var mongoWriterGrain = GrainClient.GrainFactory.GetGrain<IMongoWriterGrain>("test");
             //mongoWriterGrain.SetCollection("test1");
 
-            // get a reference to the grain from the grain factory
-            var publisherCrawlerGrain = GrainClient.GrainFactory.GetGrain<IPublisherCrawler>(uri);
-            publisherCrawlerGrain.Crawl("","");
+            // Init (or Load) one publisher
+            var publisherCrawlerGrain = GrainClient.GrainFactory.GetGrain<IPublisherGrain>(uri);
+            publisherCrawlerGrain.SetArticlePageXPath("");
+            publisherCrawlerGrain.SetCategoryPageXPath("");
 
-            //Console.WriteLine(result);
+            // Add a uri to kickstart the process
+            var azureQueueGrain = GrainClient.GrainFactory.GetGrain<IAzureQueueGrain>(0);
+            azureQueueGrain.Insert(uri);
+            
+            // Wait till the end of time
             Console.ReadKey();
         }
     }
